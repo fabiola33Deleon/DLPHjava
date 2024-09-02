@@ -2,11 +2,10 @@
 package Modelo;
 
 import Vista.frmCrearU;
-import com.sun.jdi.connect.spi.Connection;
-import java.beans.Statement;
 import java.util.UUID;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import  java.sql.*; 
 
 
 public class mdlCrearUsuario {
@@ -52,8 +51,8 @@ public class mdlCrearUsuario {
     public void Guardar() {
         try {
             String sql = "INSERT INTO Usuarios (UUID, Nombre, contrasenaUsuario, correoUsuario, rollUsuario) VALUES (?, ?, ?, ?, ?)";
-            
-            PreparedStatement pstmt = ClaseConexion.prepareStatement(sql);
+                    Connection conexion = (Connection) ClaseConexion.getConexion();
+            PreparedStatement  pstmt = conexion.prepareStatement(sql);
             
             pstmt.setString(1, UUID.randomUUID().toString());
             pstmt.setString(2, getNombre());
@@ -164,14 +163,14 @@ public class mdlCrearUsuario {
    public void cargarDatosTabla(frmCrearU vista) {
     limpiarCampos(vista);
 
-    int filaSeleccionada = vista.Usuario.getSelectedRow();
+    int filaSeleccionada = vista.jtbUsuariosEcu.getSelectedRow();
 
     if (filaSeleccionada != -1) {
-        String UUID_USUARIO = vista.Usuarios.getValueAt(filaSeleccionada, 0).toString();
-        String Nombre = vista.Usuarios.getValueAt(filaSeleccionada, 1).toString();
-        String contrasenaUsuario = vista.Usuarios.getValueAt(filaSeleccionada, 2).toString();
-        String CorreoUsuario = vista.Usuarios.getValueAt(filaSeleccionada, 3).toString();
-        String rollUsuario = vista.Usuarios.getValueAt(filaSeleccionada, 4).toString();
+        String UUID_USUARIO = vista.jtbUsuariosEcu.getValueAt(filaSeleccionada, 0).toString();
+        String Nombre = vista.jtbUsuariosEcu.getValueAt(filaSeleccionada, 1).toString();
+        String contrasenaUsuario = vista.jtbUsuariosEcu.getValueAt(filaSeleccionada, 2).toString();
+        String CorreoUsuario = vista.jtbUsuariosEcu.getValueAt(filaSeleccionada, 3).toString();
+        String rollUsuario = vista.jtbUsuariosEcu.getValueAt(filaSeleccionada, 4).toString();
 
         
         if (validarNombre(Nombre) && 
